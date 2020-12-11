@@ -4,6 +4,7 @@
 #include<iostream>
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,37 +12,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     scene=new QGraphicsScene;
     QRect Desktop=QApplication::desktop()->screenGeometry();//se obtiene el rectangulo de la pantalla
-    x=Desktop.x();
-    y=Desktop.y();
-    ancho=Desktop.width();
-    alto=Desktop.height();
-    scene=new QGraphicsScene(x,y,ancho,alto); //crea la escena
-    personaje=new cuerpo();
 
-    ui->graphicsView->setScene(scene);
-    scene->setSceneRect(0,0,400,400);//define el tamaño de la escena
+    this->Reset();
 
-    scene->addItem(personaje);
+    timer=new QTimer();
+    timer->start(100);//cada imagen cambia cada 300ms
+    //cada x tiempo actuliza, conecta la señal del tiempo con la actualizacion
+    connect(timer,&QTimer::timeout,this,&MainWindow::actualizacion);
 
-    this->muros={};
-    this->monedas={};
-
-    Mundo3();
-    for (int i=0; i<this->muros.size(); i++) {
-
-        scene->addItem(muros.at(i));
-    }
-
-
-    for (int i=0; i<this->monedas.size(); i++) {
-
-        scene->addItem(monedas.at(i));
-    }
-    ui->graphicsView->setScene(scene);//agrega la escena al graphics view
-    QString texto=QString::number(this->vidas);
-    ui->vidas->setText(texto);
-    QString textoP=QString::number(this->puntaje);
-    ui->puntaje->setText(textoP);
 }
 
 
@@ -1331,6 +1309,76 @@ void MainWindow::Mundo3()
         moneda *moneda138=new moneda(10,130,150);
         this->monedas.append(moneda138);
 
+}
+
+void MainWindow::actualizacion()
+{
+    int tiempo_=this->personaje->getTiempo();
+    if(tiempo_<=60){
+        QString textoP=QString::number(tiempo_);
+        ui->tiempo->setText(textoP);
+        if(this->monedas.size()==0){
+            this->puntaje=0;
+            this->vidas=3;
+            this->nivel++;
+            this->personaje->ResetTiempo();
+            this->Reset();
+        }
+    }else{
+        this->personaje->ResetTiempo();
+        this->vidas--;
+        this->puntaje=0;
+        this->Reset();
+    }
+
+}
+
+void MainWindow::IniciarMundo()
+{
+    if(this->nivel==1){
+        Mundo1();
+    }else if(this->nivel==2){
+        Mundo2();
+    }else{
+        Mundo3();
+    }
+
+        for (int i=0; i<this->muros.size(); i++) {
+
+            scene->addItem(muros.at(i));
+        }
+
+
+
+    for (int i=0; i<this->monedas.size(); i++) {
+
+        scene->addItem(monedas.at(i));
+    }
+}
+
+void MainWindow::Reset()
+{
+
+    scene=new QGraphicsScene(); //crea la escena
+    personaje=new cuerpo();
+
+    ui->graphicsView->setScene(scene);
+    scene->setSceneRect(0,0,400,400);//define el tamaño de la escena
+
+    scene->addItem(personaje);
+
+    this->muros={};
+    this->monedas={};
+    this->IniciarMundo();
+
+
+
+
+    ui->graphicsView->setScene(scene);//agrega la escena al graphics view
+    QString texto=QString::number(this->vidas);
+    ui->vidas->setText(texto);
+    QString textoP=QString::number(this->puntaje);
+    ui->puntaje->setText(textoP);
 }
 
 

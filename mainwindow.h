@@ -13,6 +13,7 @@
 #include<QDebug>
 #include"cuerpo.h"
 #include"moneda.h"
+#include<QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,6 +32,11 @@ public:
     void Mundo3();
     int puntaje=0;
     int vidas=3;
+    QTimer * timer;
+    void actualizacion();
+    int nivel=1;
+    void IniciarMundo();
+    void Reset();
 
     void keyPressEvent(QKeyEvent *evento);
     ~MainWindow();

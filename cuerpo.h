@@ -20,6 +20,9 @@ public:
     int ancho, alto;//float
     int posx=-130, posy=-7;
     int velocidad=10;
+    unsigned t,t1;
+    double tiempo=0;
+
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -30,6 +33,8 @@ public:
     void right();
     int getPosx() const;
     int getPosy() const;
+    double getTiempo();
+    void ResetTiempo();
 
 signals:
 

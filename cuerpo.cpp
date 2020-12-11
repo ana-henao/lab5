@@ -1,5 +1,5 @@
 #include "cuerpo.h"
-
+#include<ctime>
 
 cuerpo::cuerpo(QObject *parent) :QObject(parent)
 {
@@ -18,7 +18,7 @@ cuerpo::cuerpo(QObject *parent) :QObject(parent)
     timer->start(100);//cada imagen cambia cada 300ms
     //cada x tiempo actuliza, conecta la señal del tiempo con la actualizacion
     connect(timer,&QTimer::timeout,this,&cuerpo::Actualizacion);
-
+    this->t=clock();
 
 }
 void cuerpo::Actualizacion()
@@ -28,7 +28,7 @@ void cuerpo::Actualizacion()
         columnas=0;
     }
     this->update(-ancho/2,-alto/2,ancho,alto);//actualiza imagen
-
+    this->t1=clock();
 }
 
 QRectF cuerpo::boundingRect() const
@@ -49,6 +49,18 @@ int cuerpo::getPosx() const
 int cuerpo::getPosy() const
 {
     return posy;
+}
+
+double cuerpo::getTiempo()
+{
+    return (int(t1-t)/CLOCKS_PER_SEC);
+}
+
+void cuerpo::ResetTiempo()
+{
+    this->tiempo=0;
+
+
 }
 
 void cuerpo::up()
