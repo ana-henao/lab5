@@ -18,8 +18,8 @@ public:
 
     int filas, columnas;//float
     int ancho, alto;//float
-    int posx, posy;
-    int velocidad=20;
+    int posx=-130, posy=-7;
+    int velocidad=10;
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

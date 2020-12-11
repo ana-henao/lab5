@@ -12,7 +12,7 @@ cuerpo::cuerpo(QObject *parent) :QObject(parent)
 
     //dimensiones de la imagen
     ancho=50;
-    alto=50;
+    alto=44;
     setPos(-130,-7);
 
     timer->start(100);//cada imagen cambia cada 300ms

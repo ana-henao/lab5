@@ -26,6 +26,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     void Muros();
     void Monedas();
+    void Mundo1();
+    void Mundo2();
+    void Mundo3();
+    int puntaje=0;
+    int vidas=3;
+
     void keyPressEvent(QKeyEvent *evento);
     ~MainWindow();
 
@@ -34,7 +40,7 @@ private:
 
     QGraphicsScene *scene;
     //void keyPressEvent(QKeyEvent *evento);
-    QVector<muro*> muros;
+    QVector<muro*> muros={};
 
     cuerpo *personaje;
 
